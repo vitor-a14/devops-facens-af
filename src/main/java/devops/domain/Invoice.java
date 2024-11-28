@@ -18,6 +18,10 @@ public class Invoice {
 	private double price;
 	private LocalDateTime createdAt;
 	
+	public Invoice() {
+
+    }
+	
 	public Invoice(String productName, String customerNotes, double price) {
 		super();
 		this.productName = productName;
