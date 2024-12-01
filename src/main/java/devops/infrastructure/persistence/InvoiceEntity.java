@@ -47,6 +47,10 @@ public class InvoiceEntity {
 	public double getPrice() {
 		return price;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
 	public void setPrice(double price) {
 		this.price = price;

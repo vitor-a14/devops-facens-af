@@ -3,7 +3,7 @@ package devops.infrastructure.controllers;
 import devops.domain.entity.Invoice;
 
 public class InvoiceDTOMapper {
-	InvoiceResponse toResponse(Invoice invoice) {
+	public InvoiceResponse toResponse(Invoice invoice) {
 		return new InvoiceResponse(invoice.productName(), invoice.customerNote(), invoice.price());
 	}
 	

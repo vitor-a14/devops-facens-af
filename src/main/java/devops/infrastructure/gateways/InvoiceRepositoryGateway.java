@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import devops.application.gateways.InvoiceGateway;
 import devops.domain.entity.Invoice;
+import devops.infrastructure.controllers.InvoiceNotFoundException;
 import devops.infrastructure.persistence.InvoiceEntity;
 import devops.infrastructure.persistence.InvoiceRepository;
 
@@ -30,9 +31,11 @@ public class InvoiceRepositoryGateway implements InvoiceGateway {
         try {
             Long invoiceId = Long.parseLong(id);
             Optional<InvoiceEntity> invoiceEntity = invoiceRepository.findById(invoiceId);
-            return invoiceEntity.map(invoiceEntityMapper::toDomain).orElse(null);
+            return invoiceEntity
+                    .map(invoiceEntityMapper::toDomain)
+                    .orElseThrow(() -> new InvoiceNotFoundException("Invoice with id " + id + " not found."));
         } catch (NumberFormatException e) {
-            return null; 
+            throw new InvoiceNotFoundException("Invalid invoice ID format: " + id);
         }
     }
     
@@ -47,7 +50,7 @@ public class InvoiceRepositoryGateway implements InvoiceGateway {
     @Override
     public boolean deleteInvoice(String id) {
         try {
-            Long invoiceId = Long.parseLong(id);
+        	Long invoiceId = Long.parseLong(id);
             if (invoiceRepository.existsById(invoiceId)) {
                 invoiceRepository.deleteById(invoiceId);
                 return true;

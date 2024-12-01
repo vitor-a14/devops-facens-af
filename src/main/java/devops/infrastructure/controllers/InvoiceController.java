@@ -2,6 +2,8 @@ package devops.infrastructure.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +27,10 @@ public class InvoiceController {
 	}
 	
 	@PostMapping
-	InvoiceResponse createInvoice(@RequestBody InvoiceRequest request) {
+	ResponseEntity<InvoiceResponse> createInvoice(@RequestBody InvoiceRequest request) {
 		Invoice invoiceBusinessObj = invoiceDTOMapper.toInvoice(request);
 		Invoice invoice = invoiceUsecase.createInvoice(invoiceBusinessObj);
-		return invoiceDTOMapper.toResponse(invoice);
+		return ResponseEntity.status(HttpStatus.CREATED).body(invoiceDTOMapper.toResponse(invoice));
 	}
 	
     @GetMapping("/{id}")
@@ -49,10 +51,11 @@ public class InvoiceController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInvoice(@PathVariable String id) {
+    public ResponseEntity<Void> deleteInvoice(@PathVariable String id) {
         boolean deleted = invoiceUsecase.deleteInvoice(id);
         if (!deleted) {
             throw new InvoiceNotFoundException("Invoice with id " + id + " not found or could not be deleted.");
         }
+        return ResponseEntity.noContent().build();
     }
 }
