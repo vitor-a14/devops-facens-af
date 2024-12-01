@@ -1,14 +1,13 @@
-package devops.domain;
+package devops.infrastructure.persistence;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Invoice {
+public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -18,12 +17,11 @@ public class Invoice {
 	private double price;
 	private LocalDateTime createdAt;
 	
-	public Invoice() {
+	public InvoiceEntity() {
 
     }
 	
-	public Invoice(String productName, String customerNotes, double price) {
-		super();
+	public InvoiceEntity(String productName, String customerNotes, double price) {
 		this.productName = productName;
 		this.customerNotes = customerNotes;
 		this.price = price;
